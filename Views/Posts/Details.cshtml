@@ -1,0 +1,20 @@
+﻿@model Blog.Models.Post
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+  <div>
+    <a asp-action="Index" class="btn btn-primary">
+      <i class='bx bx-arrow-back'></i><span class="sr-only">Back to List</span>
+    </a> |
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning text-white">
+      <i class='bx bxs-edit-alt'></i> <span class="sr-only">Edit</span>
+    </a>
+  </div>
+<h1>@Html.DisplayFor(model => model.Title)</h1>
+<p>@Html.DisplayNameFor(model => model.PublishDate): @Html.DisplayFor(model => model.PublishDate)</p>
+@Html.Raw(Model.Content)
+
+
+

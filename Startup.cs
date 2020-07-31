@@ -1,15 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Blog.Data.EntityFramework;
-using Blog.Data.PostRepository;
 using Blog.Seeders;
-using Blog.Services.PostServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,7 +24,7 @@ namespace Blog
         {
             services.AddControllersWithViews();
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(
-                Configuration.GetConnectionString("DefaultConnection")));
+                Configuration["AspBlog:DatabaseConnection"]));
 
             services.AddInternalServices();
         }
@@ -42,9 +35,10 @@ namespace Blog
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
-                //resolver isso de ter que comentar
-                //app.UseSeeder(serviceProvider);
+                if(Configuration.GetValue<bool>("seed"))
+                {
+                    app.UseSeeder(serviceProvider);
+                }
             }
             else
             {
